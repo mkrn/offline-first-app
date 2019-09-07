@@ -8,7 +8,7 @@
     "nohoist": ["**/cors", "**/cors/**"]
   },
   "scripts": {
-    "start": "export REACT_APP_API_URL='http://localhost:4000' && export PORT=4000 && yarn workspace backend-nodejs start && yarn workspace frontend start"
+    "start": "yarn workspace backend-nodejs start"
   },
   "private": true
 }
