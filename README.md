@@ -35,8 +35,8 @@ yarn workspace frontend start
 
 ### Online preview
 
-[Demo](https://offline-first-app.netlify.com/)
-[API](https://mkrn-offline-first-app-1.glitch.me)
+- [Online Demo](https://offline-first-app.netlify.com/)
+- [Online API](https://mkrn-offline-first-app-1.glitch.me)
 
 
 
