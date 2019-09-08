@@ -1,18 +1,21 @@
 const request = require('supertest');
-const assert = require('assert');
+const { v4: uuid } = require('uuid');
 const app = require('../src/index');
 
 describe('Server', () => {
   const demoUser = {
-    name: 'Demo', email: 'demo@gmail.com'
+    id: uuid(),
+    name: 'Demo', 
+    email: 'demo@gmail.com'
   };
 
-  let id;
+  let userAsInserted;
 
   it('Returns 200 to /', async (done) => {
     await request(app).get('/').expect(200);
     done();
   });
+
 
   it('Inserts a user', async (done) => {
     const res = await request(app).post('/user')
@@ -20,9 +23,10 @@ describe('Server', () => {
       .expect('Content-Type', /json/)
       .expect(200);
 
-    expect(res.body.email).toEqual(demoUser.email);
+      userAsInserted = res.body;
 
-    id = res.body.id;
+    expect(userAsInserted.email).toEqual(demoUser.email);
+    expect(userAsInserted.version).toEqual(1);
     
     done();
   });
@@ -33,22 +37,34 @@ describe('Server', () => {
       .expect(200);
 
     expect(res.body).toEqual(
-      expect.arrayContaining([{ id, avatar: null, ...demoUser }])
+      expect.arrayContaining([{ avatar: null, version: 1, ...demoUser }])
     );
 
     done();
   });
 
   it('Updates a user', async (done) => {
-    const res = await request(app).post(`/user/${id}`)
+    const res = await request(app).post(`/user/${demoUser.id}`)
       .send({
-        ...demoUser, 
+        ...userAsInserted, 
         name: 'New Name',
       })
       .expect('Content-Type', /json/)
       .expect(200);
 
     expect(res.body.name).toEqual('New Name');
+    
+    done();
+  });
+
+  it('Rejects update from a stale version', async (done) => {
+    const res = await request(app).post(`/user/${demoUser.id}`)
+      .send({
+        ...userAsInserted, 
+        name: 'New Name 2',
+      })
+      .expect('Content-Type', /json/)
+      .expect(500);
     
     done();
   });
