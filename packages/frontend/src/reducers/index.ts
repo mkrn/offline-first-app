@@ -1,8 +1,8 @@
-import users from './users';
-import { combineReducers } from 'redux';
+import users from "./users";
+import { combineReducers } from "redux";
 const rootReducer = combineReducers({
-    users
+  users
 });
 export default rootReducer;
 
-export type AppState = ReturnType<typeof rootReducer>
+export type AppState = ReturnType<typeof rootReducer>;

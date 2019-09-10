@@ -1,6 +1,6 @@
-import React from 'react';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import Users from './components/Users';
+import React from "react";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
+import Users from "./components/Users";
 
 const App: React.FC = () => {
   return (
@@ -10,8 +10,8 @@ const App: React.FC = () => {
           <Route path="/" component={Users} />
         </Switch>
       </div>
-    </BrowserRouter>   
+    </BrowserRouter>
   );
-}
+};
 
 export default App;
